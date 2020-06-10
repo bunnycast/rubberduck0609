@@ -1,4 +1,6 @@
-from rest_framework import mixins, generics, viewsets
+from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
+
 from snippets.serializers import SnippetModelSerializer
 from snippets.models import Snippet
 from django_filters import rest_framework as filters
@@ -29,8 +31,8 @@ class SnippetFilter(filters.FilterSet):
 class SnippetViewSet(viewsets.ModelViewSet):
     serializer_class = SnippetModelSerializer
     queryset = Snippet.objects.all()
-
-    filter_backends = (filters.DjangoFilterBackend,)
+    authentication_classes = [TokenAuthentication]
+    filter_backends = [filters.DjangoFilterBackend,]
     filterset_class = SnippetFilter
 
 
